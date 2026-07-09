@@ -104,4 +104,4 @@ export const checkValidation = (req, res,  next) =>{
 };
 
 
-export default { validateRegistration}
+export default { validateRegister, validateLogin, validateVideoCreate, validateCourseCreate, checkValidation };
