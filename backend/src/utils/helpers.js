@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 /**
  * get current timestamp in ISO format
  */
-export const nowISO = () =>{
+export const nowIso = () =>{
     return new Date().toISOString();
 };
 
@@ -46,7 +46,7 @@ export const truncate = (str, maxLength = 100) => {
 };
 
 export default {
-    nowISO,
+    nowIso,
     cleanDocument,
     generateId,
     isValidJSON,
