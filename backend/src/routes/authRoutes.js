@@ -15,4 +15,9 @@ router.post('/login', authLimiter, validateLogin, checkValidation, login);
 router.post('/logout', authenticate, logout);
 router.get('/me', authenticate, getMe);
 
+// Debug route to check if router is working
+router.get('/test', (req, res) => {
+    res.json({ message: 'Auth router is working!' });
+});
+
 export default router;

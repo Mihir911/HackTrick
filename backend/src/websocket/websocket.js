@@ -15,7 +15,7 @@ class ConnectionManager {
 
     connect(roomId, ws, userId) {
         if (!this.rooms.has(roomId)) {
-            this.rooms.set(roomId, new set());
+            this.rooms.set(roomId, new Set());
         }
         this.rooms.get(roomId).add(ws);
         if (userId) {

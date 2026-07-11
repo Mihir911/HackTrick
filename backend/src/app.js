@@ -1,18 +1,28 @@
+import "./config/env.js"
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import compression from 'compression';
-import dotenv from 'dotenv';
-import path from 'path';
-import  { fileURLToPath } from 'url';
+// import dotenv from 'dotenv';
+// import path from 'path';
+// import  { fileURLToPath } from 'url';
+
+
+
+//__dirname
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 //load env vars
-dotenv.config();
+// dotenv.config({ path: path.join(__dirname, '../.env') });
+// console.log("dotenv result:", dotenv.config({ path: path.join(__dirname, '../.env') }));
+// console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 //import modules 
 import connectDB from './config/database.js';
 import { initStorage } from './config/storage.js';
+import { setupWebSocket } from './websocket/websocket.js';
 import logger from './utils/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { generalLimiter } from './middleware/rateLimit.js';
@@ -22,12 +32,18 @@ import { uptime } from 'process';
 import { defaultMaxListeners } from 'events';
 
 //improt routes
+import authRoutes from './routes/authRoutes.js';
+import videoRoutes from './routes/videoRoutes.js';
+import courseRoutes from './routes/courseRoutes.js';
+import missionRoutes from './routes/missionRoutes.js';
+import hackathonRoutes from './routes/hackathonRoutes.js';
+import recruitmentRoutes from './routes/recruitmentRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 
 
 
-//__dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 //init app
 const app = express();
@@ -87,7 +103,15 @@ app.use((req, res, next) => {
 
 //---------- Routes ---------
 //api routes
-
+app.use('/api/auth', authRoutes);
+app.use('/api/videos', videoRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/missions', missionRoutes);
+app.use('/api/hackathons', hackathonRoutes);
+app.use('/api/talent', recruitmentRoutes);
+app.use('/api/users', profileRoutes);
+app.use('/api', statsRoutes);
+app.use('/api/upload', uploadRoutes);
 
 
 //health check
@@ -141,6 +165,7 @@ const startServer = async () => {
 
 
         //setup websocket server
+        setupWebSocket(server);
 
 
 

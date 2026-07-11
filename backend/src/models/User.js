@@ -85,6 +85,10 @@ userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ xp: -1 });
 
+userSchema.statics.hashPassword = async function(password) {
+    return await hashPassword(password);
+};
+
 //instance method
 userSchema.methods.comparePassword = async function (password) {
     return await verifyPassword(password, this.password_hash);

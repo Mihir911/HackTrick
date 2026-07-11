@@ -1,10 +1,21 @@
 import jwt from 'jsonwebtoken';
 import logger from './logger.js';
-import { http } from 'winston';
-import path from 'node:path';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+// console.log("JWT module loaded:", process.env.JWT_SECRET);
+
+
+// const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_ALGORITHM = 'HS256';
+
+const getJWTSecret = () => {
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret) {
+        throw new Error("JWT_SECRET is missing");
+    }
+
+    return secret;
+};
 
 //create a access token
 export const createAccessToken = (userId, email, role) => {
@@ -16,7 +27,7 @@ export const createAccessToken = (userId, email, role) => {
         iat: Math.floor(Date.now() / 1000),
     };
 
-    return jwt.sign(payload, JWT_SECRET, {
+    return jwt.sign(payload, getJWTSecret(), {
         algorithm: JWT_ALGORITHM,
         expiresIn: '7d',
     });
@@ -25,7 +36,7 @@ export const createAccessToken = (userId, email, role) => {
 //verify token and decode
 export const verifyToken = (token) => {
     try {
-        return jwt.verify(token, JWT_SECRET, {
+        return jwt.verify(token, getJWTSecret(), {
             algorithms: [JWT_ALGORITHM]
         });
     } catch (error) {
