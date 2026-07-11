@@ -86,12 +86,12 @@ userSchema.index({ role: 1 });
 userSchema.index({ xp: -1 });
 
 //instance method
-userSchema.method.comparePassword = async function (password) {
-    return await hashPassword(password);
+userSchema.methods.comparePassword = async function (password) {
+    return await verifyPassword(password, this.password_hash);
 };
 
 //update rank based on XP
-userSchema.methods.updateRak = function(){
+userSchema.methods.updateRank = function(){
     const xp = this.xp;
     if (xp >= 2000) this.rank = 'Elite Hacker';
     else if (xp >= 1000) this.rank = 'Red Team Lead';

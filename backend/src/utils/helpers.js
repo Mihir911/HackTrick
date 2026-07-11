@@ -12,7 +12,7 @@ export const cleanDocument = (doc) =>  {
     if (!doc) return null;
     const cleaned = { ...doc };
     delete cleaned._id;
-    delete cleaned._v;
+    delete cleaned.__v;
     delete cleaned.password_hash;
     return cleaned;
 };
@@ -26,7 +26,7 @@ export const generateId = () => {
 //check if string is valid json
 export const isValidJSON = (str) => {
     try {
-        JSON.parser(str);
+        JSON.parse(str);
         return true;
     } catch (error) {
         return false;
@@ -36,7 +36,7 @@ export const isValidJSON = (str) => {
 //capitalize FIrst latter
 export const capitalize = (str) => {
     if (!str) return '';
-    return str.charAT(0).toUpperCase() + str.slice(1);
+    return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 //truncate string to a max length

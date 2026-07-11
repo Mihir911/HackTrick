@@ -4,7 +4,7 @@ import logger from '../utils/logger.js';
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI, {
-            dbname: process.env.DB_NAME,
+            dbName: process.env.DB_NAME,
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverSelectionTimeoutMS: 5000,

@@ -1,4 +1,4 @@
-import { verifyToken } from "../utils/jwt";
+import { verifyToken } from "../utils/jwt.js";
 import User from '../models/User.js';
 import logger from '../utils/logger.js';
 
@@ -6,12 +6,12 @@ import logger from '../utils/logger.js';
 //get token from req 
 const getTokenFromRequest = (req) => {
     //check cookie first
-    if (req.cookie && req.cookie.access_token){
-        return req.cookie.access_token;
+    if (req.cookies && req.cookies.access_token){
+        return req.cookies.access_token;
     }
 
     //check authorization header
-    const authHeader = req.headers.authrization;
+    const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
         return authHeader.substring(7);
     }
@@ -42,7 +42,7 @@ export const authenticate = async (req, res, next) => {
         req.user=user;
         next();
     } catch (error) {
-        if (error.essage === 'Token expired') {
+        if (error.message === 'Token expired') {
             return res.status(401).json({ error: 'Token expired' });
         }
         if (error.essage === 'Invalide token') {
@@ -91,7 +91,7 @@ export const optionalAuth = async (req, res, next) => {
         const token = getTokenFromRequest(req);
         if (token) {
             try {
-                const decoded = verufyToken(token);
+                const decoded = verifyToken(token);
                 const user = await User.findOne({ id: decoded.sub });
                 if (user) {
                     req.user = user;

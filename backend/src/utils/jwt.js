@@ -32,7 +32,7 @@ export const verifyToken = (token) => {
         if (error.name === 'TokenExpiredError') {
             throw new Error('Token expired');
         }
-        if (error.name === 'jsonwebTokenError') {
+        if (error.name === 'JsonWebTokenError') {
             throw new Error('Invalid token');
         }
         throw error;
