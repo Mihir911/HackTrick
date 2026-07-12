@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_ORIGIN || process.env.ORIGIN;
+const BACKEND_URL = process.env.ORIGIN;
 export const API = `${BACKEND_URL}/api`;
 
 const api = axios.create({
